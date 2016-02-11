@@ -18,6 +18,23 @@ Route::get('/', function () {
 Route::get('about', 'PagesController@about');
 
 Route::get('contact', 'PagesController@contact');
+
+Route::get('articles', 'ArticlesController@index');
+
+Route::get('articles/create', 'ArticlesController@create');
+
+//capturing anything in this segment of the URI
+Route::get('articles/{id}', 'ArticlesController@show');
+
+Route::post('articles/create', 'ArticlesController@store');
+
+Route::get('users', 'UserController@getUsers');
+
+Route::post('users', 'UserController@postUsers');
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -30,5 +47,5 @@ Route::get('contact', 'PagesController@contact');
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+    
 });

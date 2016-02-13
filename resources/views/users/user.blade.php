@@ -23,8 +23,21 @@
 		</div>
 
 		<div class="form-group">
-			{!! Form::submit('Submit User', null, ['class' => 'btn btn-primary']) !!}
+			{!! Form::label('password', 'Password:') !!}
+			{!! Form::text('password', null, ['class' => 'form-control']) !!}
+		</div>
+
+		<div class="form-group">
+			{!! Form::submit('Submit User', ['class' => 'btn btn-primary form-control']) !!}
 		</div>
 
 	{!! Form::close() !!}
+
+	@if($errors->any())
+	<div class="alert alert-danger">
+		@foreach($errors->all() as $error)
+		<li>{{ $error }}</li>
+		@endforeach
+	</div>
+	@endif
 @stop

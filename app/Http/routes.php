@@ -1,40 +1,4 @@
 <?php
-
-/*
-|--------------------------------------------------------------------------
-| Routes File
-|--------------------------------------------------------------------------
-|
-| Here is where you will register all of the routes in an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('about', 'PagesController@about');
-
-Route::get('contact', 'PagesController@contact');
-
-Route::get('articles', 'ArticlesController@index');
-
-Route::get('articles/create', 'ArticlesController@create');
-
-//capturing anything in this segment of the URI
-Route::get('articles/{id}', 'ArticlesController@show');
-
-Route::post('articles/create', 'ArticlesController@store');
-
-Route::get('users', 'UserController@getUsers');
-
-Route::post('users', 'UserController@postUsers');
-
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -47,5 +11,32 @@ Route::post('users', 'UserController@postUsers');
 */
 
 Route::group(['middleware' => ['web']], function () {
+
+	Route::get('/', function () {
+	    return view('welcome');
+	});
+
+	Route::get('about', 'PagesController@about');
+
+	Route::get('contact', 'PagesController@contact');
+
+//Articles
+
+	// Route::get('articles', 'ArticlesController@index');
+
+	// Route::get('articles/create', 'ArticlesController@create');
+
+	// //capturing anything in this segment of the URI
+	// Route::get('articles/{id}', 'ArticlesController@show');
+
+	// Route::post('articles/create', 'ArticlesController@store');
+
+	Route::resource('articles', 'ArticlesController');
+
+//Users
+
+	Route::get('users', 'UserController@getUsers');
+
+	Route::post('users', 'UserController@postUsers');
     
 });

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 
-use Request;
-
 use App\Article;
 
 use App\Http\Requests;
+
+use App\Http\Requests\CreateArticleRequest;
 
 use App\Http\Controllers\Controller;
 
@@ -35,12 +35,21 @@ class ArticlesController extends Controller
    		return view('articles.create');
    }
 
-   public function store()
+
+   //This type hint is from the CreateArticleRequest under App\Requests... The body of this method will not fire unless the validation passes
+   public function store(CreateArticleRequest $request)
    {
-   		
-   		Article::create(Request::all());
+
+   		Article::create($request->all());
 
    		return redirect('articles');
+   }
+
+   public function edit($id)
+   {
+      $article = Article::findOrFail($id);
+
+      return view('articles.edit')->with('articles', $article);
    }
 
 }

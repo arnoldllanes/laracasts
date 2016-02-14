@@ -24,7 +24,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function scopeName($query){
-        $query->where('name', '=', 'Testing');
-    }
+    // public function scopeName($query){
+    //     $query->where('name', '=', 'Testing');
+    // }
 }

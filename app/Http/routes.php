@@ -22,21 +22,10 @@ Route::group(['middleware' => ['web']], function () {
 
 //Articles
 
-	// Route::get('articles', 'ArticlesController@index');
-
-	// Route::get('articles/create', 'ArticlesController@create');
-
-	// //capturing anything in this segment of the URI
-	// Route::get('articles/{id}', 'ArticlesController@show');
-
-	// Route::post('articles/create', 'ArticlesController@store');
-
 	Route::resource('articles', 'ArticlesController');
 
 //Users
 
-	Route::get('users', 'UserController@getUsers');
+	Route::resource('users', 'UserController');
 
-	Route::post('users', 'UserController@postUsers');
-    
 });

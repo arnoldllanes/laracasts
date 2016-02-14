@@ -4,7 +4,9 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class CreateUserRequest extends Request
+
+
+class ArticleRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +26,9 @@ class CreateUserRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|min:3',
-            'email' => 'required',
-            'password' => 'required'
-
+            'title' => 'required|min:3',
+            'body'  => 'required',
+            'published_at'  => 'required|date'
         ];
     }
 }

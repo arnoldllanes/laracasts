@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 
 use App\Article;
 
 use App\Http\Requests;
 
-use App\Http\Requests\CreateArticleRequest;
+use App\Http\Requests\ArticleRequest;
 
 use App\Http\Controllers\Controller;
 
@@ -37,7 +38,7 @@ class ArticlesController extends Controller
 
 
    //This type hint is from the CreateArticleRequest under App\Requests... The body of this method will not fire unless the validation passes
-   public function store(CreateArticleRequest $request)
+   public function store(ArticleRequest $request)
    {
 
    		Article::create($request->all());
@@ -49,7 +50,16 @@ class ArticlesController extends Controller
    {
       $article = Article::findOrFail($id);
 
-      return view('articles.edit')->with('articles', $article);
+      return view('articles.edit')->with('article', $article);
+   }
+
+   public function update($id, ArticleRequest $request)
+   {
+      $article = Article::findOrFail($id);
+
+      $article->update($request->all());
+
+      return redirect('articles');
    }
 
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\Auth\AuthController;
+
 use App\Article;
 
 use App\Http\Requests;
@@ -14,20 +16,30 @@ use App\Http\Controllers\Controller;
 
 use Carbon\Carbon;
 
+use Auth;
+
 
 class ArticlesController extends Controller
 {
+   public function __construct() {
+
+      //Run this middle only on the create function
+      $this->middleware('auth', ['only' => 'create']);
+
+   }
+
+
    public function index()
    {
+
    		$article = Article::latest('published_at')->published()->get();
 
    		return view('articles.index')->with('articles', $article);
    }
 
-   public function show($id)
+   public function show(Article $article)
    {
-   		$article = Article::findOrFail($id);
-
+        
    		return view('articles.show')->with('article', $article);
    }
 
@@ -40,22 +52,25 @@ class ArticlesController extends Controller
    //This type hint is from the CreateArticleRequest under App\Requests... The body of this method will not fire unless the validation passes
    public function store(ArticleRequest $request)
    {
-
-   		Article::create($request->all());
+         //Create an article with the attributes from the form
+         $article = new Article($request->all());
+         
+         //Get the authenticated users' articles and save a new one passing through the $article object
+         //It is important to note that when you use the method it implies that we are chaining. If I were to use articles-> it would return a collection of all the articles
+         
+         Auth::user()->articles()->save($article);
 
    		return redirect('articles');
    }
 
-   public function edit($id)
+   public function edit(Article $article)
    {
-      $article = Article::findOrFail($id);
 
       return view('articles.edit')->with('article', $article);
    }
 
-   public function update($id, ArticleRequest $request)
+   public function update(Article $article, ArticleRequest $request)
    {
-      $article = Article::findOrFail($id);
 
       $article->update($request->all());
 

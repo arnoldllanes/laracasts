@@ -27,4 +27,16 @@ class User extends Authenticatable
     // public function scopeName($query){
     //     $query->where('name', '=', 'Testing');
     // }
+
+    //User can have many articles  php artisan tinker with grabbing a user ($user = App\User::first(); and stating $user->articles->toArray()
+    public function articles()
+    {
+        return $this->hasMany('App\Article', 'user_id');
+    }
+
+    public function isATeamManager()
+    {
+        return true;
+    }
+
 }

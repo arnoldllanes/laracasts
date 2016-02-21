@@ -11,4 +11,6 @@
 			<div class="body">{{ $article->body }}</div>
 		
 		</article>
+
+		<p>published by: {{ $article->user->name }}</p>
 @stop

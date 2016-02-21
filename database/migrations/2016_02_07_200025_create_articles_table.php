@@ -13,12 +13,32 @@ class CreateArticlesTable extends Migration
     public function up()
     {
         Schema::create('articles', function (Blueprint $table) {
+            
             $table->increments('id');
+
+            //Unsigned means the integer must be positive
+            $table->integer('user_id')->unsigned();
+            
             $table->string('title');
+            
             $table->text('body');
+            
             $table->timestamp('published_at');
+            
             $table->timestamps();
+
+            //Using a constraint where if a user deletes an account.. the articles will delete articles as well
+            $table->foreign('user_id')
+                
+                ->references('id')
+                
+                ->on('users')
+                
+                ->onDelete('cascade');
+        
         });
+
+
     }
 
     /**

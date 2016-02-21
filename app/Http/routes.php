@@ -12,6 +12,13 @@
 
 Route::group(['middleware' => ['web']], function () {
 
+	Route::controllers([
+		'auth'	=> 'Auth\AuthController',
+		'password'	=> 'Auth\PasswordController',
+	
+	]);
+
+
 	Route::get('/', function () {
 	    return view('welcome');
 	});
@@ -20,12 +27,25 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('contact', 'PagesController@contact');
 
-//Articles
+//Articles CRUD
 
 	Route::resource('articles', 'ArticlesController');
 
-//Users
+//Users CRUD
 
 	Route::resource('users', 'UserController');
 
+	Route::get('foo', ['middleware' => 'manager', function()
+		{
+			return 'This page may only be viewed by managers';
+		}]);
+
+
+
+});
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
 });

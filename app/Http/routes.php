@@ -12,7 +12,12 @@
 
 Route::group(['middleware' => ['web']], function () {
 
+	Route::auth();
+
+    Route::get('/home', 'HomeController@index');
+
 	Route::controllers([
+
 		'auth'	=> 'Auth\AuthController',
 		'password'	=> 'Auth\PasswordController',
 	
@@ -35,17 +40,4 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::resource('users', 'UserController');
 
-	Route::get('foo', ['middleware' => 'manager', function()
-		{
-			return 'This page may only be viewed by managers';
-		}]);
-
-
-
-});
-
-Route::group(['middleware' => 'web'], function () {
-    Route::auth();
-
-    Route::get('/home', 'HomeController@index');
 });

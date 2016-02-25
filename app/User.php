@@ -4,8 +4,11 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Auth;
+
 class User extends Authenticatable
 {
+
     /**
      * The attributes that are mass assignable.
      *
@@ -37,6 +40,19 @@ class User extends Authenticatable
     public function isATeamManager()
     {
         return true;
+    }
+
+    public function isLoggedIn()
+    {
+        if (! Auth::check()) {
+        
+            return true;
+        
+        } else {
+        
+            return false;
+        }
+    
     }
 
 }

@@ -25,7 +25,7 @@ class ArticlesController extends Controller
    public function __construct() {
 
       //Run this middle only on the create function
-      $this->middleware('auth', ['only' => 'create']);
+      $this->middleware('auth', ['except' => ['index', 'show']]);
 
    }
 
@@ -56,12 +56,11 @@ class ArticlesController extends Controller
    public function store(ArticleRequest $request)
    {
 
-         //Create an article with the attributes from the form
-         $article = Auth::user()->articles()->create($request->all());
+         $this->createArticle($request);
 
          // $tagIds = $request->input('tags');
 
-         $article->tags()->attach($request->input('tag_list'));
+         //$article->tags()->attach($request->input('tag_list'));
          
          //Get the authenticated users' articles and save a new one passing through the $article object
          //It is important to note that when you use the method it implies that we are chaining. If I were to use articles-> it would return a collection of all the articles
@@ -85,12 +84,33 @@ class ArticlesController extends Controller
       return view('articles.edit')->with('article', $article)->with('tags', $tags);
    }
 
-   public function update(Article $article, ArticleRequest $request)
+   public function update(ArticleRequest $request, Article $article)
    {
 
       $article->update($request->all());
 
+      $this->syncTags($article, $request->input('tag_list'));
+
       return redirect('articles');
+   }
+
+#Sync up the list of tags in the database
+   private function syncTags(Article $article, $tags)
+   {
+      
+      $article->tags()->sync(!$tags ? [] : $tags);
+   
+   }
+
+#Save a new article
+   private function createArticle(ArticleRequest $request)
+   {
+       //Create an article with the attributes from the form
+         $article = Auth::user()->articles()->create($request->all());
+
+         $this->syncTags($article, $request->input('tag_list'));
+
+         return $article;
    }
 
 }
